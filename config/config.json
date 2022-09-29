@@ -11,6 +11,11 @@
   "production": {
     "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",
-    "storage": "database.sqlite"
+    "storage": "database.sqlite",
+    "dialectOptions": {
+      "ssl": {
+        "require": true
+      }
+    },
   }
 }
