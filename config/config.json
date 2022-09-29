@@ -14,7 +14,8 @@
     "storage": "database.sqlite",
     "dialectOptions": {
       "ssl": {
-        "require": true
+        "require": true,
+        "rejectUnauthorized": false
       }
     }
   }
