@@ -1,6 +1,6 @@
 import {Shopify} from '@shopify/shopify-api';
 import {handleAppUninstall} from './app-uninstall';
-import {handleOrderCreate, handleOrderFulfill} from './order';
+import {handleOrderCreate, handleOrderFulfill} from './orders';
 import {handleShopUpdate} from './shop-update';
 import {handleShippingProfileUpdate} from './shipping-profile';
 
