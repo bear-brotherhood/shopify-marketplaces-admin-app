@@ -8564,7 +8564,7 @@ send@0.17.1:
     range-parser "~1.2.1"
     statuses "~1.5.0"
 
-sequelize-cli@^6.3.0:
+sequelize-cli@^6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/sequelize-cli/-/sequelize-cli-6.5.1.tgz#e084c82b11e86ed9bd7e47fde4e44cfbc6e81e2c"
   integrity sha512-36hfZKNeZkIshp6L0jPVQ27xNLzgDPpiZokQsvo0M882AtAm+KhGOIViR0BecWb0Xz8+uSq03xxcl7RfMgyIRA==
@@ -8582,7 +8582,7 @@ sequelize-pool@^7.1.0:
   resolved "https://registry.yarnpkg.com/sequelize-pool/-/sequelize-pool-7.1.0.tgz#210b391af4002762f823188fd6ecfc7413020768"
   integrity sha512-G9c0qlIWQSK29pR/5U2JF5dDQeqqHRragoyahj/Nx4KOOQ3CPPfzxnfqFPCSB7x5UgjOgnZ61nSxz+fjDpRlJg==
 
-sequelize@^6.12.0:
+sequelize@^6.23.2:
   version "6.23.2"
   resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-6.23.2.tgz#bd343ac8326725845e071b1dd782bbf6c02be476"
   integrity sha512-0jy5pkRV7LZlBArIrYKfpKa+DowC+fIcI6LrWDfvdqFmuXZfmS4qq8gzFmIu0C210ts2Mmw/dghzRhX73xPoMg==
