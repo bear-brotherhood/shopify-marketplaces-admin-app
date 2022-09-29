@@ -6,10 +6,10 @@
   "test": {
     "use_env_variable": true,
     "dialect": "sqlite",
-    "storage": ":memory:" 
+    "storage": ":memory:"
   },
   "production": {
-    "dialect": "sqlite",
+    "dialect": "postgres",
     "storage": "database.sqlite"
   }
 }
