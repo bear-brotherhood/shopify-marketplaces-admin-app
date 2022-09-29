@@ -17,7 +17,6 @@
         "require": true,
         "rejectUnauthorized": false
       }
-    },
-    "ssl": true
+    }
   }
 }
