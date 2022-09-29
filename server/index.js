@@ -81,7 +81,7 @@ async function startServer() {
     const authRoute = await Shopify.Auth.beginAuth(
       req,
       res,
-      process.env.SHOP,
+      process.env.SHOP || req.query.shop,
       '/auth/callback',
       false,
     );
