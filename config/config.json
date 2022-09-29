@@ -9,6 +9,7 @@
     "storage": ":memory:"
   },
   "production": {
+    "use_env_variable": true,
     "dialect": "postgres",
     "storage": "database.sqlite"
   }
