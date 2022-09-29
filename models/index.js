@@ -10,7 +10,11 @@ const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(config);
+  if (config[config.use_env_variable]) {
+    sequelize = new Sequelize(config[config.use_env_variable]);
+  } else {
+    sequelize = new Sequelize(config);
+  }
 } else {
   sequelize = new Sequelize(
     config.database,
