@@ -5,6 +5,7 @@ import {
   LoadingState,
   OnboardingInfoCard,
   OnboardingTermsCard,
+  OnboardingChecklistCard,
 } from './components';
 import {OnboardingPage} from '@shopify/channels-ui';
 import {useNavigate} from 'react-router-dom';
@@ -16,6 +17,16 @@ const ONBOARDING_PAGE_QUERY = gql`
       onboardingInfoCompleted
       termsAccepted
       onboardingCompleted
+      config {
+        hasStorefront
+        shipsToUnitedKingdom
+        gbpEnabled
+        hasPolicies
+      }
+      subscription {
+        confirmationUrl
+        accepted
+      }
     }
   }
 `;
@@ -51,12 +62,26 @@ const Onboarding = () => {
   };
 
   const {
-    adminShop: {onboardingInfoCompleted, termsAccepted},
+    adminShop: {
+      onboardingInfoCompleted,
+      termsAccepted,
+      config: {hasStorefront, shipsToUnitedKingdom, gbpEnabled, hasPolicies},
+      subscription: {
+        accepted: subscriptionAccepted,
+        confirmationUrl: subscriptionConfirmationUrl,
+      },
+    },
   } = data;
+  const requirementsMet =
+    hasStorefront &&
+    shipsToUnitedKingdom &&
+    gbpEnabled &&
+    hasPolicies &&
+    subscriptionAccepted;
 
   return (
     <OnboardingPage
-      title="Setup Mockingbird Marketplace"
+      title="Setup Bear Brotherhood Marketplace"
       breadcrumb={{
         content: 'Back',
         url: '/',
@@ -71,11 +96,26 @@ const Onboarding = () => {
       <OnboardingInfoCard
         state={onboardingInfoCompleted ? 'completed' : 'active'}
       />
+      <OnboardingChecklistCard
+        hasStorefront={hasStorefront}
+        shipsToUnitedKingdom={shipsToUnitedKingdom}
+        gbpEnabled={gbpEnabled}
+        hasPolicies={hasPolicies}
+        state={
+          onboardingInfoCompleted
+            ? requirementsMet
+              ? 'completed'
+              : 'active'
+            : 'disabled'
+        }
+        subscriptionConfirmationUrl={subscriptionConfirmationUrl}
+        subscriptionAccepted={subscriptionAccepted}
+      />
       <OnboardingTermsCard
         state={
           termsAccepted
             ? 'completed'
-            : onboardingInfoCompleted
+            : onboardingInfoCompleted && requirementsMet
             ? 'active'
             : 'disabled'
         }

@@ -13,6 +13,7 @@ const HOME_PAGE_QUERY = gql`
       availableProductCount
       onboardingInfoCompleted
       onboardingCompleted
+      meetsRequirements
     }
   }
 `;
@@ -37,6 +38,7 @@ const Home = () => {
       availableProductCount,
       onboardingInfoCompleted,
       onboardingCompleted,
+      meetsRequirements,
     },
   } = data;
 
@@ -47,6 +49,7 @@ const Home = () => {
         availableProductCount={availableProductCount}
         publicationId={publicationId}
         appHandle={appHandle}
+        meetsRequirements={meetsRequirements}
       />
     );
   }

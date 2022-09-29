@@ -26,7 +26,7 @@ const OnboardingTermsCard = ({state}) => {
 
   const tosLink = (
     <Link url="https://www.shopify.com/legal/terms" external>
-      Mockingbird Marketplace Terms of Service
+      Bear Brotherhood Marketplace Terms of Service
     </Link>
   );
 

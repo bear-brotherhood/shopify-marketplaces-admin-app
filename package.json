@@ -32,6 +32,7 @@
     "@shopify/shopify-api": "^2.0.0",
     "apollo-server-express": "^3.6.0",
     "babel-loader": "^8.2.3",
+    "caniuse-lite": "^1.0.30001412",
     "connect-history-api-fallback": "^1.6.0",
     "core-js": "^3.20.2",
     "css-loader": "^6.5.1",

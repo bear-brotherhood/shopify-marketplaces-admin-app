@@ -5,7 +5,18 @@ import {
   getAppHandle,
   getProductListingsCount,
   getPublicationId,
+  getShopConfiguration,
+  getShopShippingCountries,
+  getShopPolicyTypes,
+  getAppSubscription,
 } from '../handlers';
+import {
+  isShopCurrencyApproved,
+  isShopPolicyApproved,
+  isShopShippingApproved,
+  getNewSubscriptionConfirmationUrl,
+} from '../helpers';
+import {parseGid} from '@shopify/admin-graphql-api-utilities';
 
 export const resolvers = {
   Query: {
@@ -76,6 +87,58 @@ export const resolvers = {
         accessToken,
       );
       return productListingCount;
+    },
+    config: async ({domain, accessToken}) => {
+      const {has_storefront, enabled_presentment_currencies} =
+        await getShopConfiguration(domain, accessToken);
+      const shipsToCountries = await getShopShippingCountries(
+        domain,
+        accessToken,
+      );
+      const shopPolicies = await getShopPolicyTypes(domain, accessToken);
+      return {
+        hasStorefront: has_storefront,
+        gbpEnabled: isShopCurrencyApproved(enabled_presentment_currencies),
+        shipsToUnitedKingdom: isShopShippingApproved(shipsToCountries),
+        hasPolicies: isShopPolicyApproved(shopPolicies),
+      };
+    },
+    subscription: async ({domain, accessToken, subscriptionId}) => {
+      if (!subscriptionId) {
+        const confirmationUrl = await getNewSubscriptionConfirmationUrl(
+          domain,
+          accessToken,
+        );
+        return {
+          confirmationUrl,
+          accepted: false,
+        };
+      }
+      const {status, confirmation_url} = await getAppSubscription(
+        domain,
+        accessToken,
+        parseGid(subscriptionId),
+      );
+      if (status === 'pending') {
+        return {
+          confirmationUrl: confirmation_url,
+          accepted: false,
+        };
+      }
+      if (status === 'active' || status === 'accepted') {
+        return {
+          accepted: true,
+        };
+      }
+
+      const confirmationUrl = await getNewSubscriptionConfirmationUrl(
+        domain,
+        accessToken,
+      );
+      return {
+        confirmationUrl,
+        accepted: false,
+      };
     },
   },
   Mutation: {

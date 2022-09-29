@@ -14,8 +14,15 @@ import {
   addWebhookHandlers,
   getShopDetails,
   registerWebhooks,
+  getShopConfiguration,
+  getShopPolicyTypes,
+  getShopShippingCountries,
 } from './handlers/index.js';
-import {getOrCreateStorefrontAccessToken} from './helpers';
+import {
+  getOrCreateStorefrontAccessToken,
+  handleResourceFeedback,
+  isShopApproved,
+} from './helpers';
 import CustomSessionStorage from './custom-session-storage';
 
 dotenv.config();
@@ -101,11 +108,28 @@ async function startServer() {
         billingAddress: {country},
       } = await getShopDetails(shop, accessToken);
 
+      const {has_storefront, enabled_presentment_currencies} =
+        await getShopConfiguration(shop, accessToken);
+      const shipsToCountries = await getShopShippingCountries(
+        shop,
+        accessToken,
+      );
+      const policyTypes = await getShopPolicyTypes(shop, accessToken);
+      const meetsRequirements = isShopApproved(
+        has_storefront,
+        enabled_presentment_currencies,
+        shipsToCountries,
+        policyTypes,
+      );
+      handleResourceFeedback(shop, accessToken, meetsRequirements);
+
+
       const shopData = {
         domain: shop,
         storefrontAccessToken,
         name,
         country,
+        meetsRequirements,
       };
 
       try {
