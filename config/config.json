@@ -18,6 +18,7 @@
         "rejectUnauthorized": false
       }
     },
-    "ssl": true
+    "ssl": true,
+    "native": true
   }
 }
