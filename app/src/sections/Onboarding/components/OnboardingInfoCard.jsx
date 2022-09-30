@@ -57,7 +57,7 @@ const OnboardingInfoCard = ({state}) => {
                 The fee will be charged each time a buyer completes a checkout
                 initiated in the marketplace, and will not be credited for
                 refunded orders. You will be charged every month, up to a
-                maximum of £20.00.
+                maximum of $20.00.
               </p>
             ),
           },
