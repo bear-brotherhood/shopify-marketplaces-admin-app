@@ -30,7 +30,7 @@ export const createUsageRecord = async (
   const variables = {
     subscriptionLineItemId,
     price: {
-      amount: 0.5,
+      amount: 1.0,
       currencyCode: 'GBP',
     },
     description: 'Marketplace order fee',

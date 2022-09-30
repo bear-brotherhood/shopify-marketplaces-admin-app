@@ -40,7 +40,7 @@ export const createAppSubscription = async (shop, token, appHandle) => {
               amount: 20,
               currencyCode: 'GBP',
             },
-            terms: '£0.50 per order',
+            terms: '£1.00 per order',
           },
         },
       },
