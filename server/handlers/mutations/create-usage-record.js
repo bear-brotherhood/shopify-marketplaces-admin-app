@@ -31,7 +31,7 @@ export const createUsageRecord = async (
     subscriptionLineItemId,
     price: {
       amount: 1.0,
-      currencyCode: 'GBP',
+      currencyCode: 'USD',
     },
     description: 'Marketplace order fee',
   };

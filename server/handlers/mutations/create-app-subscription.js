@@ -38,9 +38,9 @@ export const createAppSubscription = async (shop, token, appHandle) => {
           appUsagePricingDetails: {
             cappedAmount: {
               amount: 20,
-              currencyCode: 'GBP',
+              currencyCode: 'USD',
             },
-            terms: '£1.00 per order',
+            terms: '$1.00 per order',
           },
         },
       },
@@ -51,6 +51,7 @@ export const createAppSubscription = async (shop, token, appHandle) => {
     query: APP_SUBSCRIPTION_CREATE,
     variables,
   });
+  console.log(JSON.stringify(resp.body.data));
   return {
     subscriptionId: resp.body.data.appSubscriptionCreate.appSubscription.id,
     subscriptionConfirmationUrl:

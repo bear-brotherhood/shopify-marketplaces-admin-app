@@ -51,7 +51,7 @@ const OnboardingInfoCard = ({state}) => {
               source: BillingStatementPoundMajor,
             },
             title:
-              'Every order made through Bear Brotherhood will have a £1.00 fee',
+              'Every order made through Bear Brotherhood will have a $1.00 fee',
             content: (
               <p>
                 The fee will be charged each time a buyer completes a checkout
