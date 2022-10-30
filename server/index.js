@@ -14,8 +14,15 @@ import {
   addWebhookHandlers,
   getShopDetails,
   registerWebhooks,
+  getShopConfiguration,
+  getShopPolicyTypes,
+  getShopShippingCountries,
 } from './handlers/index.js';
-import {getOrCreateStorefrontAccessToken} from './helpers';
+import {
+  getOrCreateStorefrontAccessToken,
+  handleResourceFeedback,
+  isShopApproved,
+} from './helpers';
 import CustomSessionStorage from './custom-session-storage';
 
 dotenv.config();
@@ -74,7 +81,7 @@ async function startServer() {
     const authRoute = await Shopify.Auth.beginAuth(
       req,
       res,
-      process.env.SHOP,
+      process.env.SHOP || req.query.shop,
       '/auth/callback',
       false,
     );
@@ -101,11 +108,28 @@ async function startServer() {
         billingAddress: {country},
       } = await getShopDetails(shop, accessToken);
 
+      const {has_storefront, enabled_presentment_currencies} =
+        await getShopConfiguration(shop, accessToken);
+      const shipsToCountries = await getShopShippingCountries(
+        shop,
+        accessToken,
+      );
+      const policyTypes = await getShopPolicyTypes(shop, accessToken);
+      const meetsRequirements = isShopApproved(
+        has_storefront,
+        enabled_presentment_currencies,
+        shipsToCountries,
+        policyTypes,
+      );
+      handleResourceFeedback(shop, accessToken, meetsRequirements);
+
+
       const shopData = {
         domain: shop,
         storefrontAccessToken,
         name,
         country,
+        meetsRequirements,
       };
 
       try {
@@ -131,6 +155,19 @@ async function startServer() {
   });
 
   app.use(history());
+
+  app.use((req, res, next) => {
+    const shop = req.query.shop;
+    if (Shopify.Context.IS_EMBEDDED_APP && shop) {
+      res.setHeader(
+        'Content-Security-Policy',
+        `frame-ancestors https://${shop} https://admin.shopify.com;`,
+      );
+    } else {
+      res.setHeader('Content-Security-Policy', `frame-ancestors 'none';`);
+    }
+    next();
+  });
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../dist')));

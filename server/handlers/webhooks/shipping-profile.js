@@ -1,12 +1,17 @@
 import Shopify from '@shopify/shopify-api';
-import {getShopPolicyTypes, getShopShippingCountries} from '..';
-import {handleResourceFeedback, isShopApproved} from '../../helpers';
+import {
+  getShopConfiguration,
+  getShopPolicyTypes,
+  getShopShippingCountries,
+} from '..';
 import db from '../../../models';
+import {handleResourceFeedback, isShopApproved} from '../../helpers';
 
-export const handleShopUpdate = async (shop, body) => {
-  const {name, has_storefront, enabled_presentment_currencies} =
-    JSON.parse(body);
+export const handleShippingProfileUpdate = async (shop) => {
   const {accessToken} = await Shopify.Utils.loadOfflineSession(shop);
+
+  const {has_storefront, enabled_presentment_currencies} =
+    await getShopConfiguration(shop, accessToken);
   const shipsToCountries = await getShopShippingCountries(shop, accessToken);
   const policyTypes = await getShopPolicyTypes(shop, accessToken);
 
@@ -19,13 +24,8 @@ export const handleShopUpdate = async (shop, body) => {
 
   await handleResourceFeedback(shop, accessToken, meetsRequirements);
 
-  const shopData = {
-    name,
-    meetsRequirements,
-  };
-
   try {
-    await db.Shop.update(shopData, {where: {domain: shop}});
+    await db.Shop.update({meetsRequirements}, {where: {domain: shop}});
   } catch (err) {
     console.error('Failed to update shop in db', err);
   }

@@ -6,10 +6,17 @@
   "test": {
     "use_env_variable": true,
     "dialect": "sqlite",
-    "storage": ":memory:" 
+    "storage": ":memory:"
   },
   "production": {
-    "dialect": "sqlite",
-    "storage": "database.sqlite"
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres",
+    "storage": "database.sqlite",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }

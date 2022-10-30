@@ -6,12 +6,14 @@ import {
 } from '@shopify/channels-ui';
 import {useAppBridge} from '@shopify/app-bridge-react';
 import {AppLink, ChannelMenu} from '@shopify/app-bridge/actions';
+import {Banner} from '@shopify/polaris';
 
 const Overview = ({
   domain,
   availableProductCount,
   publicationId,
   appHandle,
+  meetsRequirements,
 }) => {
   const app = useAppBridge();
   const overviewLink = AppLink.create(app, {
@@ -28,15 +30,33 @@ const Overview = ({
   });
 
   return (
-    <OverviewPage title="Mockingbird channel overview">
-      <OverviewPage.Section title="Product status on Mockingbird">
+    <OverviewPage title="Bear Brotherhood channel overview">
+      {!meetsRequirements && (
+        <OverviewPage.Section>
+          <Banner
+            status="critical"
+            title="Your shop no longer meets Bear Brotherhood requirements"
+            action={{
+              content: 'View details',
+              url: '/settings',
+            }}
+          >
+            <p>
+              Your shop has been removed from the Bear Brotherhood Marketplace
+              because it no longer meets the requirements. To continue selling,
+              please ensure your store meets all requirements.
+            </p>
+          </Banner>
+        </OverviewPage.Section>
+      )}
+      <OverviewPage.Section title="Product status on Bear Brotherhood">
         <ProductStatusSection
           manageAction={{
             content: 'Manage availability',
             external: true,
             url: `https://${domain}/admin/bulk?resource_name=Product&edit=publications.${publicationId}.published_at`,
           }}
-          summary={`${availableProductCount} products available to Mockingbird`}
+          summary={`${availableProductCount} products available to Bear Brotherhood`}
           productStatuses={[
             {
               badge: {
@@ -52,13 +72,13 @@ const Overview = ({
           ]}
         />
       </OverviewPage.Section>
-      <OverviewPage.Section title="Manage your Mockingbird features">
+      <OverviewPage.Section title="Manage your Bear Brotherhood features">
         <FeatureListCard
           features={[
             {
-              title: 'Mockingbird Marketplace',
+              title: 'Bear Brotherhood Marketplace',
               description:
-                'Customers can discover your brand and purchase products directly on the Mockingbird Marketplace.',
+                'Customers can discover your brand and purchase products directly on the Bear Brotherhood Marketplace.',
               badge: {children: 'Active', status: 'success'},
             },
           ]}

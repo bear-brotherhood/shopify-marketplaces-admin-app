@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       storefrontAccessToken: DataTypes.STRING,
       onboardingInfoCompleted: DataTypes.BOOLEAN,
       termsAccepted: DataTypes.BOOLEAN,
+      meetsRequirements: DataTypes.BOOLEAN,
+      subscriptionId: DataTypes.STRING,
+      subscriptionLineItemId: DataTypes.STRING,
     },
     {
       sequelize,

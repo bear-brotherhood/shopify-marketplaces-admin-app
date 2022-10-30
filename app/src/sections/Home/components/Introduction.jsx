@@ -13,11 +13,11 @@ const Introduction = ({setupInProgress}) => {
   });
 
   return (
-    <IntroductionPage title="Get started with the Mockingbird channel">
+    <IntroductionPage title="Get started with the Bear Brotherhood channel">
       <FeatureCard
-        title="Sell your products on Mockingbird"
-        description="Let customers discover your brand and purchase your products directly on the Mockingbird marketplace."
-        feature="Mockingbird Marketplace"
+        title="Sell your products on Bear Brotherhood"
+        description="Let customers discover your brand and purchase your products directly on the Bear Brotherhood marketplace."
+        feature="Bear Brotherhood Marketplace"
         badgeText="Free"
         primaryAction={{
           content: setupInProgress ? 'Continue setup' : 'Start setup',

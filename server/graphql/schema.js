@@ -1,6 +1,16 @@
 import {gql} from 'apollo-server-express';
 
 export const typeDefs = `
+type AdminShopSubscription {
+  confirmationUrl: String
+  accepted: Boolean!
+}
+type AdminShopConfig {
+  hasStorefront: Boolean!
+  shipsToUnitedKingdom: Boolean!
+  gbpEnabled: Boolean!
+  hasPolicies: Boolean!
+}
 type AdminShop {
   id: ID!
   domain: String!
@@ -10,6 +20,9 @@ type AdminShop {
   onboardingInfoCompleted: Boolean!
   termsAccepted: Boolean!
   onboardingCompleted: Boolean!
+  meetsRequirements: Boolean!
+  config: AdminShopConfig!
+  subscription: AdminShopSubscription!
 }
 type Shop {
   id: ID!
